@@ -12,6 +12,3 @@ Javascript
 
 ### License
 The content of this challenge is licensed under Unlicensed license.
-# (Project Name)
-
-#### Date, 2018/09/14
