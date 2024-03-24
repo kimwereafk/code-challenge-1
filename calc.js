@@ -58,6 +58,40 @@ function calculateNHIF(grossPay) {
     return nhifDeduction;
 }
 
+function calculateNSSF(salaryScale) {
+    let nssfContribution = 0;
+
+    switch (salaryScale) {
+        case 10000:
+            nssfContribution = 600;
+            break;
+        case 18000:
+            nssfContribution = 1080;
+            break;
+        case 20000:
+            nssfContribution = 1200;
+            break;
+        case 30000:
+            nssfContribution = 1800;
+            break;
+        case 36000:
+            nssfContribution = 2160;
+            break;
+        case 50000:
+            nssfContribution = 2160;
+            break;
+        case 100000:
+            nssfContribution = 2160;
+            break;
+        default:
+            // For other salary scales, use the contribution for 100000
+            nssfContribution = 2160;
+            break;
+    }
+
+    return nssfContribution;
+}
+
 function calculateNetSalary(basicSalary, benefits) {
     const grossSalary = basicSalary + benefits;
     const annualSalary = grossSalary * 12;
@@ -65,7 +99,10 @@ function calculateNetSalary(basicSalary, benefits) {
     const paye = calculatePAYE(annualSalary);
     const nhif = calculateNHIF(grossSalary);
 
-    const totalDeductions = paye + nhif;
+    // For NSSF, we assume the salary scale is the same as basic salary
+    const nssf = calculateNSSF(basicSalary);
+
+    const totalDeductions = paye + nhif + nssf;
     const netSalary = grossSalary - totalDeductions;
 
     return netSalary;
