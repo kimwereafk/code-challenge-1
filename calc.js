@@ -1,3 +1,5 @@
+const readline = require('readline');
+
 function calculatePAYE(annualSalary) {
     let taxAmount = 0;
 
@@ -109,18 +111,33 @@ function calculateNetSalary(basicSalary, benefits) {
 }
 
 function main() {
-    let basicSalaryInput = prompt("Enter basic salary: ");
-    let benefitsInput = prompt("Enter benefits: ");
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-    let basicSalary = parseFloat(basicSalaryInput);
-    let benefits = parseFloat(benefitsInput);
+    rl.question("Enter basic salary: ", (basicSalaryInput) => {
+        const basicSalary = parseFloat(basicSalaryInput);
+        if (isNaN(basicSalary) || basicSalary < 0) {
+            console.log("Invalid input. Basic salary should be a non-negative number.");
+            rl.close();
+            return;
+        }
 
-    if (!isNaN(basicSalary) && !isNaN(benefits) && basicSalary >= 0 && benefits >= 0) {
-        let netSalary = calculateNetSalary(basicSalary, benefits);
-        console.log("Net Salary:", netSalary.toFixed(2));
-    } else {
-        console.log("Invalid input. Please enter valid numbers for basic salary and benefits.");
-    }
+        rl.question("Enter benefits: ", (benefitsInput) => {
+            const benefits = parseFloat(benefitsInput);
+            if (isNaN(benefits) || benefits < 0) {
+                console.log("Invalid input. Benefits should be a non-negative number.");
+                rl.close();
+                return;
+            }
+
+            const netSalary = calculateNetSalary(basicSalary, benefits);
+            console.log("Net Salary:", netSalary.toFixed(2));
+
+            rl.close();
+        });
+    });
 }
 
 main();
